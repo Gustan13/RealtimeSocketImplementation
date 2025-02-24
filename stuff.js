@@ -16,10 +16,11 @@ function send() {
     socket.emit("send message", user, input.value)
     text = input.value
     input.value = ""
+    document.activeElement.blur()
 }
 
 function localDraw() {
-    ctx.clearRect(0, 0, 200, 200)
+    ctx.clearRect(0, 0, 800, 600)
 
     position[0] += velocity[0]
     position[1] += velocity[1]
@@ -82,7 +83,12 @@ function down() {
 }
 
 document.onkeydown = (e) => {
-    if (user == 0)
+    if (e.code == "Enter") {
+        send()
+        return
+    }
+
+    if (user == 0 || document.activeElement == input)
         return
 
     switch (e.code) {

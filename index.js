@@ -28,18 +28,7 @@ io.on("connection", (socket) => {
     })
     socket.on("move", (id, x, y) => {
         entities[id][0] = x
-        if (entities[id][0] > 200) {
-            entities[id][0] = -20
-        } else if (entities[id][0] < -20) {
-            entities[id][0] = 200
-        }
-
         entities[id][1] = y
-        if (entities[id][1] > 200) {
-            entities[id][1] = -20
-        } else if (entities[id][1] < -20) {
-            entities[id][1] = 200
-        }
     })
     socket.on("send message", (id, msg) => {
         entities[id][2] = msg
@@ -50,7 +39,7 @@ function update() {
     io.emit("draw", (entities))
 }
 
-const interval = setInterval(update, 20)
+const interval = setInterval(update, 1)
 
 server.listen(3000, () => {
     console.log("Server is running")
