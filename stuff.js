@@ -1,5 +1,3 @@
-import { io, Socket } from "socket.io-client"
-
 var user = 0
 var velocity = [0, 0]
 var position = [0, 0]
