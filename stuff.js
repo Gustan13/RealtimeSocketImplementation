@@ -22,7 +22,7 @@ function localDraw() {
     ctx.fillStyle = "black"
     ctx.font = "15px Consolas"
     ctx.fillRect(position[0], position[1], 20, 20)
-    ctx.fillText(text, position[0], position[0] - 10)
+    ctx.fillText(text, position[0], position[1] - 10)
 }
 
 socket.on("draw", (entities) => {
@@ -42,7 +42,7 @@ socket.on("connection", (id) => {
     user = id
 })
 
-const interval = setInterval(localDraw, 20)
+const interval = setInterval(localDraw, 1)
 
 function left() {
     velocity[0] = -1
