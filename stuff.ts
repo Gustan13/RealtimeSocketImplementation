@@ -1,35 +1,50 @@
-var user = 0
-var velocity = [0, 0]
+import { io, Socket } from "socket.io-client"
 
-const socket = io()
+var user: number = 0
+var velocity: number[] = [0, 0]
+var position: number[] = [0, 0]
+var text: string = ""
 
-const canvas = document.getElementById("myCanvas")
-const ctx = canvas.getContext("2d");
+const socket: Socket = io()
 
-const sendButton = document.getElementById("send")
-const input = document.getElementById("input")
+const canvas: HTMLCanvasElement = document.getElementById("myCanvas") as HTMLCanvasElement
+const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+const input: HTMLInputElement = document.getElementById("input") as HTMLInputElement
 
 function send() {
     socket.emit("send message", user, input.value)
+    text = input.value
+    input.value = ""
+}
+
+function localDraw() {
+    position[0] += velocity[0]
+    position[1] += velocity[1]
+    socket.emit("move", user, velocity[0], velocity[1])
+    ctx.clearRect(0, 0, 200, 200)
+    ctx.fillStyle = "black"
+    ctx.font = "15px Consolas"
+    ctx.fillRect(position[0], position[1], 20, 20)
+    ctx.fillText(text, position[0], position[0] - 10)
 }
 
 socket.on("draw", (entities) => {
-    const keys = Object.keys(entities)
-    // ctx.fillStyle = "white"
-    ctx.clearRect(0, 0, 200, 200)
-    socket.emit("move", user, velocity[0], velocity[1])
-    console.log(velocity)
-    ctx.fillStyle = "black"
-    ctx.font = "15px Consolas"
+    const keys: string[] = Object.keys(entities)
+    localDraw()
     keys.forEach(function (item, index) {
-        ctx.fillRect(entities[item][0], entities[item][1], 20, 20)
-        ctx.fillText(entities[item][2], entities[item][0], entities[item][1] - 10)
+        if (item != socket.id) {
+            ctx.fillRect(entities[item][0], entities[item][1], 20, 20)
+            ctx.fillText(entities[item][2], entities[item][0], entities[item][1] - 10)
+        }
     })
 })
 
 socket.on("connection", (id) => {
     user = id
 })
+
+const interval = setInterval(localDraw, 1)
 
 function left() {
     velocity[0] = -1
@@ -80,3 +95,4 @@ document.onkeyup = (e) => {
             break;
     }
 }
+

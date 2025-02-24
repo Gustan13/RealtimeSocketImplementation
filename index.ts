@@ -1,3 +1,5 @@
+// import { Socket } from "socket.io-client"
+
 const express = require("express")
 const { createServer } = require("node:http")
 const { join } = require("node:path")
@@ -9,12 +11,12 @@ const io = new Server(server)
 
 var entities = {}
 
-app.get("/", (req, res) => {
+app.get("/", (_: any, res: any) => {
     res.sendFile(join(__dirname, "/index.html"))
 })
 app.use("/", express.static(join(__dirname, ".")))
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: any) => {
     socket.emit("connection", socket.id)
     entities[socket.id] = [0, 0, ""]
     console.log("user has connected")
@@ -51,5 +53,5 @@ function update() {
 const interval = setInterval(update, 20)
 
 server.listen(3000, () => {
-    console.log("server running at http://localhost:3000")
+    console.log("Server is running")
 })
