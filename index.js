@@ -27,14 +27,14 @@ io.on("connection", (socket) => {
         console.log("user disconnected")
     })
     socket.on("move", (id, x, y) => {
-        entities[id][0] += x
+        entities[id][0] = x
         if (entities[id][0] > 200) {
             entities[id][0] = -20
         } else if (entities[id][0] < -20) {
             entities[id][0] = 200
         }
 
-        entities[id][1] += y
+        entities[id][1] = y
         if (entities[id][1] > 200) {
             entities[id][1] = -20
         } else if (entities[id][1] < -20) {

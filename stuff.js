@@ -19,8 +19,6 @@ function send() {
 function localDraw() {
     position[0] += velocity[0]
     position[1] += velocity[1]
-    socket.emit("move", user, velocity[0], velocity[1])
-    ctx.clearRect(0, 0, 200, 200)
     ctx.fillStyle = "black"
     ctx.font = "15px Consolas"
     ctx.fillRect(position[0], position[1], 20, 20)
@@ -29,6 +27,8 @@ function localDraw() {
 
 socket.on("draw", (entities) => {
     const keys = Object.keys(entities)
+    ctx.clearRect(0, 0, 200, 200)
+    socket.emit("move", user, position[0], position[1])
     localDraw()
     keys.forEach(function (item, index) {
         if (item != socket.id) {
@@ -42,7 +42,7 @@ socket.on("connection", (id) => {
     user = id
 })
 
-const interval = setInterval(localDraw, 1)
+const interval = setInterval(localDraw, 20)
 
 function left() {
     velocity[0] = -1
