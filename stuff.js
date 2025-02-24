@@ -1,16 +1,16 @@
 import { io, Socket } from "socket.io-client"
 
-var user: number = 0
-var velocity: number[] = [0, 0]
-var position: number[] = [0, 0]
-var text: string = ""
+var user = 0
+var velocity = [0, 0]
+var position = [0, 0]
+var text = ""
 
-const socket: Socket = io()
+const socket = io()
 
-const canvas: HTMLCanvasElement = document.getElementById("myCanvas") as HTMLCanvasElement
-const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
+const canvas = document.getElementById("myCanvas")
+const ctx = canvas.getContext("2d")
 
-const input: HTMLInputElement = document.getElementById("input") as HTMLInputElement
+const input = document.getElementById("input")
 
 function send() {
     socket.emit("send message", user, input.value)
@@ -30,7 +30,7 @@ function localDraw() {
 }
 
 socket.on("draw", (entities) => {
-    const keys: string[] = Object.keys(entities)
+    const keys = Object.keys(entities)
     localDraw()
     keys.forEach(function (item, index) {
         if (item != socket.id) {
