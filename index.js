@@ -11,12 +11,12 @@ const io = new Server(server)
 
 var entities = {}
 
-app.get("/", (_: any, res: any) => {
+app.get("/", (_, res) => {
     res.sendFile(join(__dirname, "/index.html"))
 })
 app.use("/", express.static(join(__dirname, ".")))
 
-io.on("connection", (socket: any) => {
+io.on("connection", (socket) => {
     socket.emit("connection", socket.id)
     entities[socket.id] = [0, 0, ""]
     console.log("user has connected")
