@@ -27,12 +27,13 @@ function localDraw() {
     ctx.fillStyle = "black"
     ctx.font = "15px Consolas"
     ctx.fillRect(position[0], position[1], 20, 20)
-    ctx.fillText(text, position[0], position[1] - 10)
+    ctx.fillText(text, position[0] - text.length * 2.5, position[1] - 10)
 
     const keys = Object.keys(localEntities)
     keys.forEach(function (item, index) {
         ctx.fillRect(localEntities[item][0], localEntities[item][1], 20, 20)
-        ctx.fillText(localEntities[item][2], localEntities[item][0], localEntities[item][1] - 10)
+        const l = localEntities[item][2].length
+        ctx.fillText(localEntities[item][2], localEntities[item][0] - l * 10, localEntities[item][1] - 10)
     })
 }
 
